@@ -34,10 +34,27 @@ services:
       - "start:dev"
 
 
+  frontend:
+    image: node:lts-alpine
+    depends_on:
+      - backend
+    volumes:
+      - ../frontend:/home/node/frontend
+    user: node
+    working_dir: /home/node/frontend
+    networks:
+      - proxy
+    command:
+      - "npm"
+      - "run"
+      - "dev"
+
+
   proxy:
     image: nginx:alpine
     depends_on:
       - backend
+      - frontend
     ports:
       - "8085:80"
     volumes:
