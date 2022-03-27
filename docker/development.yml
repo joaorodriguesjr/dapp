@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  blockchain:
+    image: node:lts-alpine
+    volumes:
+      - ../blockchain:/home/node/blockchain
+    user: node
+    working_dir: /home/node/blockchain
+    networks:
+      - blockchain
+    ports:
+      - "8545:8545"
+    command:
+      - "npx"
+      - "hardhat"
+      - "node"
+
+
+networks:
+  blockchain:
