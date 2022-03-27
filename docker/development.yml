@@ -17,8 +17,27 @@ services:
       - "node"
 
 
+  backend:
+    image: node:lts-alpine
+    depends_on:
+      - blockchain
+    volumes:
+      - ../backend:/home/node/backend
+    user: node
+    working_dir: /home/node/backend
+    networks:
+      - proxy
+      - blockchain
+    command:
+      - "npm"
+      - "run"
+      - "start:dev"
+
+
   proxy:
     image: nginx:alpine
+    depends_on:
+      - backend
     ports:
       - "8085:80"
     volumes:
