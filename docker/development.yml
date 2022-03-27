@@ -17,10 +17,23 @@ services:
       - "node"
 
 
+  database:
+    image: postgres:alpine
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - backend
+    environment:
+      - POSTGRES_USER=dapp
+      - POSTGRES_PASSWORD=dapp
+      - POSTGRES_DB=dapp
+
+
   backend:
     image: node:lts-alpine
     depends_on:
       - blockchain
+      - database
     volumes:
       - ../backend:/home/node/backend
     user: node
@@ -28,6 +41,7 @@ services:
     networks:
       - proxy
       - blockchain
+      - backend
     command:
       - "npm"
       - "run"
@@ -65,4 +79,9 @@ services:
 
 networks:
   blockchain:
+  backend:
   proxy:
+
+
+volumes:
+  database:
