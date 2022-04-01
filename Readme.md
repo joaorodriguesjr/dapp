@@ -1,4 +1,4 @@
-## Blockchain Development Environement
+## Blockchain Development Environment
 
 ```shell
 docker-compose --file docker/development.yml --project-name onchain run blockchain npm install
